@@ -4,9 +4,9 @@ from PIL import Image, ImageTk
 import random
 from playsound import playsound
 
-breedte = 3440
-lengte = 1000
-resolutie = "3440x1000"
+breedte = 1700
+lengte = 300
+resolutie = "1700x300"
 
 # De tkinter mainloop die ervoor zorgt dat er verschillende frames in beeld komen
 # Door de change functie aan te roepen verwijdert hij het huidige scherm en maakt hij een nieuwe
@@ -65,16 +65,16 @@ class Game(Frame):
         self.canvas = Canvas(master, width=breedte, height=lengte, background="black")
         
         if number == 1:
-            self.imageB = "Images/Duck_easy_blue.jpg"
-            self.imageR = "Images/Duck_easy_red.jpg"
+            self.imageB = "Images/Duck_easy_blue.png"
+            self.imageR = "Images/Duck_easy_red.png"
             self.breedte_image = 200
         elif number == 2:
-            self.imageB = "Images/Duck_medium_blue.jpg"
-            self.imageR = "Images/Duck_medium_red.jpg"
+            self.imageB = "Images/Duck_medium_blue.png"
+            self.imageR = "Images/Duck_medium_red.png"
             self.breedte_image = 100
         elif number == 3:
-            self.imageB = "Images/Duck_blue_hard.jpg"
-            self.imageR = "Images/Duck_red_hard.jpg"
+            self.imageB = "Images/Duck_blue_hard.png"
+            self.imageR = "Images/Duck_red_hard.png"
             self.breedte_image = 40
 
         self.img0 = ImageTk.PhotoImage(Image.open(self.imageB))
@@ -100,7 +100,6 @@ class Game(Frame):
     def Auto_run(self, event=None):
         for i in range(3):
             for j in range(2):
-                
                 playsound('Sounds/Ping.mp3')
                 self.Wait1()
             
@@ -181,8 +180,10 @@ class Game(Frame):
         self.Get_x_cordinate()
         self.Get_y_cordinate()
 
-        self.canvas.create_image(self.Previous_locations_x[-1],self.Previous_locations_y[-1],anchor=NW,image=self.img0)
-        self.canvas.create_image(self.Previous_locations_x[-2],self.Previous_locations_y[-2],anchor=NW,image=self.img1)
+        x = 0
+        for j in range(self.lanes):
+                x -= 1
+                self.canvas.create_image(self.Previous_locations_x[x],self.Previous_locations_y[x],anchor=NW,image=self.image_list[j])
 
         # print(Previous_locations_x)
         # print(Previous_locations_y)
