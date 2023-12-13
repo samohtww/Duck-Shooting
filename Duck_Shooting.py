@@ -3,6 +3,7 @@ from tkinter.ttk import *
 from PIL import Image, ImageTk
 import random
 from playsound import playsound
+from math import *
 
 breedte = 1700
 lengte = 300
@@ -79,16 +80,15 @@ class Game(Frame):
 
         self.img0 = ImageTk.PhotoImage(Image.open(self.imageB))
         self.img1 = ImageTk.PhotoImage(Image.open(self.imageR))
+        self.rounds = 3
+        self.lanes = 2
+        self.pressed = 0
 
         self.image_list = []
         self.image_list.append(self.img0)
         self.image_list.append(self.img1)
 
-        self.Previous_locations_x = [50, 50]
-        self.Previous_locations_y = [50, 50]
-
-        self.rounds = 3
-        self.lanes = 2
+        self.coordinates_list = [[0,0]]
 
         self.canvas.pack()
         self.master.bind("<Left>", self.Update_image)
@@ -133,60 +133,40 @@ class Game(Frame):
 
 # Hier worden de coordinaten berekent, deze worden vervolgens gechekt op dat de coordinaten niet in de buurt van elkaar zijn om vervolgens in een lijst geappend te worden
 # De coordinaten worden overigens via de random functie gegenereerd, de random functie heeft verschillende parameters die ervoor zorgen dat de coordinaten binnen het scherm vallen
-    def Get_x_cordinate(self):
-        x = 0
-        x2 = 0
-        while self.check_numbers_x(x, x2) == True:
-            x = random.randint(self.breedte_image,(breedte//2-self.breedte_image))
-            x2 = random.randint((breedte//2+self.breedte_image),(breedte-self.breedte_image))
-        self.Previous_locations_x.append(x)
-        self.Previous_locations_x.append(x2)
-        return x, x2
+    def Get_coordinates(self, event=None):
+        while self.Check_corodinate_quantitiy() == False:
+            x = random.randint(0, breedte-self.breedte_image)
+            # x = random.randint(((breedte-self.breedte_image)//self.lanes)*(i-1),(((breedte-self.breedte_image)//self.lanes)*i))
+            y = random.randint(0,(lengte-self.breedte_image))
+            
+            self.coordinates_list.append([x,y])
+            print(self.coordinates_list)
+            self.Check_coordinates()
+            
 
-    def Get_y_cordinate(self):
-        y = 0
-        y2 = 0
-        while self.check_numbers_y(y, y2) == True:
-            y = random.randint(self.breedte_image,(lengte-self.breedte_image))
-            y2 = random.randint(self.breedte_image,(lengte-self.breedte_image))
-        self.Previous_locations_y.append(y)
-        self.Previous_locations_y.append(y2)
-        return y, y2
+# Het checken van coordinaten gebaseerd op de eucidean disctance (de hemelsbreedte afstand tussen de punten)
+    def Check_coordinates(self):
+        for i in range(len(self.coordinates_list)-1):
+            if sqrt(((self.coordinates_list[i][0]-self.coordinates_list[-1][0])**2)+((self.coordinates_list[i][1]-self.coordinates_list[-1][1])**2)) < (2/3)*self.breedte_image:
+                self.coordinates_list[:-1]
 
-# Momenteel wekt de check nog niet als gewenst deze zal hoogst waarschijnlijk herschreven moeten worden gezien er momenteel nog eendjes dicht bij elkaar worden geprojecteerd
-    def check_numbers_x(self, number1, number2):
-        if number1 in range((number2-self.breedte_image), (number2+self.breedte_image)):
+    def Check_corodinate_quantitiy(self):
+        if (len(self.coordinates_list)-1) > (self.lanes*self.pressed):
             return True
-        elif number1 in range((self.Previous_locations_x[-1]-self.breedte_image), (self.Previous_locations_x[-1]+self.breedte_image)):
-            if number1 in range((self.Previous_locations_x[-2]-self.breedte_image), (self.Previous_locations_x[-2]+self.breedte_image)):
-                return True
-            return True
-        return False
-    
-    def check_numbers_y(self, number1, number2):
-        if number1 in range((number2-self.breedte_image), (number2+self.breedte_image)):
-            return True
-        elif number1 in range((self.Previous_locations_y[-1]-self.breedte_image), (self.Previous_locations_y[-1]+self.breedte_image)):
-            if number1 in range((self.Previous_locations_y[-2]-self.breedte_image), (self.Previous_locations_y[-2]+self.breedte_image)):
-                return True
-            return True
-        return False
-        
+        else:
+            return False   
 
 # De functie die de daadwerkelijke plaatjes plaatst op het canvas en het canvas opschoont van vorige eendjes. 
 # De losse x en y coordinaten worden uit de lijsten gehaald om vervolgens samen gevoegd te worden tot 1 x en y coordinaat  
     def Update_image(self, event=None):
         self.canvas.delete('all')
-        self.Get_x_cordinate()
-        self.Get_y_cordinate()
-
+        self.pressed += 1
+        self.Get_coordinates()
+        
         x = 0
         for j in range(self.lanes):
-                x -= 1
-                self.canvas.create_image(self.Previous_locations_x[x],self.Previous_locations_y[x],anchor=NW,image=self.image_list[j])
-
-        # print(Previous_locations_x)
-        # print(Previous_locations_y)
+            x -= 1
+            self.canvas.create_image(self.coordinates_list[x][0],self.coordinates_list[x][1],anchor=NW,image=self.image_list[j])
         
 
 # Deze functie laat doormiddel van een loop de voorgaande plaatjes zien, momenteel staat de "rounds" op 3 (gezien er 3 pijlen per ronden geschoten worden)
@@ -196,7 +176,7 @@ class Game(Frame):
         for i in range(self.rounds):
             for j in range(self.lanes):
                 x -= 1
-                self.canvas.create_image(self.Previous_locations_x[x],self.Previous_locations_y[x],anchor=NW,image=self.image_list[j])
+                self.canvas.create_image(self.coordinates_list[x][0],self.coordinates_list[x][1],anchor=NW,image=self.image_list[j])
 
 
 if __name__=="__main__":
