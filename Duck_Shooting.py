@@ -80,7 +80,7 @@ class Game(Frame):
 
         self.img0 = ImageTk.PhotoImage(Image.open(self.imageB))
         self.img1 = ImageTk.PhotoImage(Image.open(self.imageR))
-        self.rounds = 3
+        self.rounds = 25
         self.lanes = 2
         self.pressed = 0
 
@@ -147,8 +147,8 @@ class Game(Frame):
 # Het checken van coordinaten gebaseerd op de eucidean disctance (de hemelsbreedte afstand tussen de punten)
     def Check_coordinates(self):
         for i in range(len(self.coordinates_list)-1):
-            if sqrt(((self.coordinates_list[i][0]-self.coordinates_list[-1][0])**2)+((self.coordinates_list[i][1]-self.coordinates_list[-1][1])**2)) < (2/3)*self.breedte_image:
-                self.coordinates_list[:-1]
+            if sqrt(((self.coordinates_list[i][0]-self.coordinates_list[-1][0])**2)+((self.coordinates_list[i][1]-self.coordinates_list[-1][1])**2)) < self.breedte_image:
+                self.coordinates_list = self.coordinates_list[:-1]
 
     def Check_corodinate_quantitiy(self):
         if (len(self.coordinates_list)-1) > (self.lanes*self.pressed):
