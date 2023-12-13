@@ -11,6 +11,11 @@ resolutie = "1700x300"
 
 # De tkinter mainloop die ervoor zorgt dat er verschillende frames in beeld komen
 # Door de change functie aan te roepen verwijdert hij het huidige scherm en maakt hij een nieuwe
+
+# TO-DO
+# 1. Coordinats_list op een goede locatie resetten, voor tegegaan geen nieuwe coordinaten
+# 2. Code verder opschonen en scalebale maken, met name de generatie van de x coordinaat betreft het aantal banen (lanes genoemed in code)
+
 class MainApp(Tk):
     def __init__(self):
         Tk.__init__(self)
@@ -80,7 +85,7 @@ class Game(Frame):
 
         self.img0 = ImageTk.PhotoImage(Image.open(self.imageB))
         self.img1 = ImageTk.PhotoImage(Image.open(self.imageR))
-        self.rounds = 25
+        self.rounds = 3
         self.lanes = 2
         self.pressed = 0
 
