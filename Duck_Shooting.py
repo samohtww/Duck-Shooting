@@ -77,13 +77,18 @@ class Game(Frame):
             self.imageR = "Images/Duck_red_hard.jpg"
             self.breedte_image = 40
 
-        self.img = ImageTk.PhotoImage(Image.open(self.imageB))
-        self.img2 = ImageTk.PhotoImage(Image.open(self.imageR))
+        self.img0 = ImageTk.PhotoImage(Image.open(self.imageB))
+        self.img1 = ImageTk.PhotoImage(Image.open(self.imageR))
+
+        self.image_list = []
+        self.image_list.append(self.img0)
+        self.image_list.append(self.img1)
 
         self.Previous_locations_x = [50, 50]
         self.Previous_locations_y = [50, 50]
 
         self.rounds = 3
+        self.lanes = 2
 
         self.canvas.pack()
         self.master.bind("<Left>", self.Update_image)
@@ -176,20 +181,21 @@ class Game(Frame):
         self.Get_x_cordinate()
         self.Get_y_cordinate()
 
-        self.canvas.create_image(self.Previous_locations_x[-1],self.Previous_locations_y[-1],anchor=NW,image=self.img)
-        self.canvas.create_image(self.Previous_locations_x[-2],self.Previous_locations_y[-2],anchor=NW,image=self.img2)
+        self.canvas.create_image(self.Previous_locations_x[-1],self.Previous_locations_y[-1],anchor=NW,image=self.img0)
+        self.canvas.create_image(self.Previous_locations_x[-2],self.Previous_locations_y[-2],anchor=NW,image=self.img1)
 
         # print(Previous_locations_x)
         # print(Previous_locations_y)
+        
 
 # Deze functie laat doormiddel van een loop de voorgaande plaatjes zien, momenteel staat de "rounds" op 3 (gezien er 3 pijlen per ronden geschoten worden)
+# Daarnaast wordt er ook rekening gehouden met de hoeveelheid lanes in de 2de for loop
     def Show_previous_imgages(self, event=None):
         x = 0
         for i in range(self.rounds):
-            x -= 1
-            self.canvas.create_image(self.Previous_locations_x[x],self.Previous_locations_y[x],anchor=NW,image=self.img)
-            x -= 1
-            self.canvas.create_image(self.Previous_locations_x[x],self.Previous_locations_y[x],anchor=NW,image=self.img2)
+            for j in range(self.lanes):
+                x -= 1
+                self.canvas.create_image(self.Previous_locations_x[x],self.Previous_locations_y[x],anchor=NW,image=self.image_list[j])
 
 
 if __name__=="__main__":
