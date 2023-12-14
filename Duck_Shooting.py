@@ -38,6 +38,10 @@ class Difficulty_selector(Frame):
         master.geometry("300x200")
         self.status = Label(self)
         self.status.pack()
+        lbl = Label(self, text='How many lanes?')
+        lbl.pack()
+        self.lane_amount = Entry(self)
+        self.lane_amount.pack()
         lbl = Label(self, text='Enter difficulty')
         lbl.pack()
         btn = Button(self, text="Easy", command=self.Easy)
@@ -50,16 +54,34 @@ class Difficulty_selector(Frame):
     def Easy(self, event=None):
         global number
         number = 1
+        global Amount_of_lanes
+        enrty_value = self.lane_amount.get()
+        try:
+            Amount_of_lanes = int(enrty_value)
+        except:
+            Amount_of_lanes = 2
         self.master.change(Game)
 
     def Medium(self, event=None):
         global number
         number = 2
+        global Amount_of_lanes
+        enrty_value = self.lane_amount.get()
+        try:
+            Amount_of_lanes = int(enrty_value)
+        except:
+            Amount_of_lanes = 2
         self.master.change(Game)
 
     def Hard(self, event=None):
         global number
         number = 3
+        global Amount_of_lanes
+        enrty_value = self.lane_amount.get()
+        try:
+            Amount_of_lanes = int(enrty_value)
+        except:
+            Amount_of_lanes = 2
         self.master.change(Game)
 
 
@@ -90,7 +112,7 @@ class Game(Frame):
         self.img1 = ImageTk.PhotoImage(Image.open(self.imageR))
 
         self.rounds = 3
-        self.lanes = 8                                              # Door het aantal images dat momenteel in de loop staan moet dit een even getal zijn anders genereerd
+        self.lanes = Amount_of_lanes                                              # Door het aantal images dat momenteel in de loop staan moet dit een even getal zijn anders genereerd
         self.pressed = 0                                            # hij 1 (of meerdere) image(s) niet en kan je niet de vorigen images zien.
         
 
