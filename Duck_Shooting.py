@@ -55,8 +55,8 @@ class Difficulty_selector(Frame):
         global number
         number = 1
         global Amount_of_lanes
-        enrty_value = self.lane_amount.get()
-        try:
+        enrty_value = self.lane_amount.get()                        # Entry veld voor lanes, atm moet het een even getal zijn voor image generatie.
+        try:                                                        # Als het geen getal is of er is niks ingevuld is maakt hij er automatisch 2 van.
             Amount_of_lanes = int(enrty_value)
         except:
             Amount_of_lanes = 2
