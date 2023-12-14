@@ -13,7 +13,7 @@ resolutie = "1700x300"
 # Door de change functie aan te roepen verwijdert hij het huidige scherm en maakt hij een nieuwe
 
 # TO-DO
-# 1. Coordinats_list op een goede locatie resetten, voor tegegaan geen nieuwe coordinaten
+# 1. Zorgen dat als hij coordinaten verwijderd er ook nieuwe genereerd.
 # 2. Code verder opschonen en scalebale maken, met name de generatie van de x coordinaat betreft het aantal banen (lanes genoemed in code)
 
 class MainApp(Tk):
@@ -145,7 +145,6 @@ class Game(Frame):
             y = random.randint(0,(lengte-self.breedte_image))
             
             self.coordinates_list.append([x,y])
-            print(self.coordinates_list)
             self.Check_coordinates()
             
 
@@ -182,6 +181,9 @@ class Game(Frame):
             for j in range(self.lanes):
                 x -= 1
                 self.canvas.create_image(self.coordinates_list[x][0],self.coordinates_list[x][1],anchor=NW,image=self.image_list[j])
+        self.coordinates_list.clear()
+        print(self.coordinates_list)
+        self.pressed = 0
 
 
 if __name__=="__main__":
