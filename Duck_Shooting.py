@@ -100,11 +100,11 @@ class Game(Frame):
         if number == 1:
             self.imageB = "Images/Duck_easy_blue.png"
             self.imageR = "Images/Duck_easy_red.png"
-            self.breedte_image = 200
+            self.breedte_image = 100
         elif number == 2:
             self.imageB = "Images/Duck_medium_blue.png"
             self.imageR = "Images/Duck_medium_red.png"
-            self.breedte_image = 100
+            self.breedte_image = 50
         elif number == 3:
             self.imageB = "Images/Duck_blue_hard.png"
             self.imageR = "Images/Duck_red_hard.png"
@@ -115,7 +115,8 @@ class Game(Frame):
 
         self.rounds = 3
         self.lanes = Amount_of_lanes                                              # Door het aantal images dat momenteel in de loop staan moet dit een even getal zijn anders genereerd
-        self.pressed = 0                                            # hij 1 (of meerdere) image(s) niet en kan je niet de vorigen images zien.
+        self.pressed = 0
+        self.background = "Black"                                                       # hij 1 (of meerdere) image(s) niet en kan je niet de vorigen images zien.
         
 
         self.image_list = []
@@ -129,7 +130,17 @@ class Game(Frame):
         self.master.bind("<Left>", self.Update_image)
         self.master.bind("<Up>", self.Show_previous_imgages)
         self.master.bind("<Right>", self.Auto_run)
+        self.master.bind("<Down>", self.Update_color)
 
+    def Update_color(self, event=None):
+        if self.background == "Black":
+            self.canvas.configure(background="white")
+            self.background = "White"
+        elif self.background == "White":
+            self.canvas.configure(background="Black")
+            self.background = "Black"  
+    
+    
     # Het automatisch laten runnen van de applicatie, momenteel geregeld door verschillende functies die de applicatie een aantal seconden laat wachten.
     # Het is geprobeerd om dit in de functie zelf toe te passen, alleen verschenen er toen geen eendjes op het scherm;
     # De coordinaten werden wel gegenereerd maar het canvas liet de plaatjes niet zien.
@@ -214,6 +225,9 @@ class Game(Frame):
         self.pressed += 1
         self.Get_coordinates()
         
+        self.canvas.configure(background="black")
+        self.background = "Black"
+
         x = 0
         for j in range(self.lanes):
             x -= 1
