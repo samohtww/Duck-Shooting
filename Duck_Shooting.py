@@ -11,8 +11,10 @@ resolutie = "1700x300"
 
 # Gemaakt door Thom Lamens en Matthew Unterberger, voor vragen schroom niet om een berichtje te sturen.
 
+
 # TO-DO (voeg iest toe als je iets gedaan wilt hebben):
-# 1. Eventuele verdere verbeteringen en of opschoning (niet perse noodzakelijk)
+# 1. Functionerend maken van Easy Ducks (mogen erg dicht bij elkaar)
+# 2. Eventuele verdere verbeteringen en of opschoning (niet perse noodzakelijk)
 
 
 # De tkinter mainloop die ervoor zorgt dat er verschillende frames in beeld komen
