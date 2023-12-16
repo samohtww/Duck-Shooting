@@ -115,12 +115,12 @@ class Game(Frame):
 
         self.rounds = 3
         self.lanes = Amount_of_lanes                                              # Door het aantal images dat momenteel in de loop staan moet dit een even getal zijn anders genereerd
-        self.pressed = 0
-        self.background = "Black"                                                       # hij 1 (of meerdere) image(s) niet en kan je niet de vorigen images zien.
+        self.pressed = 0                                                          # hij 1 (of meerdere) image(s) niet en kan je niet de vorigen images zien.
+        self.background = "Black"                                                 
         
 
         self.image_list = []
-        for i in range(self.lanes//2):                              # Indien er meerdere afbeeldingen gebruikt willen worden moeten deze hier in de loop gezet worden, 
+        for i in range(self.lanes):                                 # Indien er meerdere afbeeldingen gebruikt willen worden moeten deze hier in de loop gezet worden, 
             self.image_list.append(self.img0)                       # anders zullen deze niet gegenereerd worden.
             self.image_list.append(self.img1)
 
