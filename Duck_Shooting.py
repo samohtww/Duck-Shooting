@@ -134,9 +134,9 @@ class Game(Frame):
 
     def Update_color(self, event=None):
         if self.background == "Black":
-            self.canvas.configure(background="white")
-            self.background = "White"
-        elif self.background == "White":
+            self.canvas.configure(background="Gray")
+            self.background = "Gray"
+        elif self.background == "Gray":
             self.canvas.configure(background="Black")
             self.background = "Black"  
     
