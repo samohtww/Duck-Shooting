@@ -98,26 +98,29 @@ class Game(Frame):
         self.canvas = Canvas(master, width=breedte, height=lengte, background="black")
         
         if number == 1:
-            self.imageB = "Images/Duck_easy_blue.png"
-            self.imageR = "Images/Duck_easy_red.png"
+            imageB = "Images/Duck_easy_blue.png"
+            imageR = "Images/Duck_easy_red.png"
             self.breedte_image = 100
         elif number == 2:
-            self.imageB = "Images/Duck_medium_blue.png"
-            self.imageR = "Images/Duck_medium_red.png"
+            imageB = "Images/Duck_medium_blue.png"
+            imageR = "Images/Duck_medium_red.png"
             self.breedte_image = 50
         elif number == 3:
-            self.imageB = "Images/Duck_blue_hard.png"
-            self.imageR = "Images/Duck_red_hard.png"
+            imageB = "Images/Duck_blue_hard.png"
+            imageR = "Images/Duck_red_hard.png"
+            imageW = "Images/Duck_wrong_hard.png"
             self.breedte_image = 40
 
-        self.img0 = ImageTk.PhotoImage(Image.open(self.imageB))
-        self.img1 = ImageTk.PhotoImage(Image.open(self.imageR))
+        self.img0 = ImageTk.PhotoImage(Image.open(imageB))
+        self.img1 = ImageTk.PhotoImage(Image.open(imageR))
+        self.imageW = ImageTk.PhotoImage(Image.open(imageW))
 
         self.rounds = 3
         self.lanes = Amount_of_lanes                                              # Door het aantal images dat momenteel in de loop staan moet dit een even getal zijn anders genereerd
         self.pressed = 0                                                          # hij 1 (of meerdere) image(s) niet en kan je niet de vorigen images zien.
         self.background = "Black"                                                 
         
+        self.Wrong = 0
 
         self.image_list = []
         for i in range(self.lanes):                                 # Indien er meerdere afbeeldingen gebruikt willen worden moeten deze hier in de loop gezet worden, 
@@ -125,6 +128,8 @@ class Game(Frame):
             self.image_list.append(self.img1)
 
         self.coordinates_list = [[0,0]]
+        self.image_coordinates = []
+        self.Wrong_list = []
 
         self.canvas.pack()
         self.master.bind("<Left>", self.Update_image)
@@ -181,16 +186,31 @@ class Game(Frame):
     # Hier worden de coordinaten berekent, deze worden vervolgens gechekt op dat de coordinaten niet in de buurt van elkaar zijn om vervolgens in een lijst geappend te worden.
     # De coordinaten worden overigens via de random functie gegenereerd, de random functie heeft verschillende parameters die ervoor zorgen dat de coordinaten binnen het scherm vallen.
     def Get_coordinates(self, event=None):
-        while self.Check_corodinate_quantitiy() == False:
-            self.lane_number = 0
-            for i in range(self.lanes):
-                self.lane_number += 1
-                x = random.randint(((breedte-self.breedte_image)//self.lanes)*(i)+10,(((breedte-self.breedte_image)//self.lanes)*(i+1)-10))
-                y = random.randint(0,(lengte-self.breedte_image))
-            
-                self.coordinates_list.append([x,y])
-                self.Check_coordinates()
-            
+        self.lane_number = 0
+        for i in range(self.lanes):
+            self.lane_number += 1
+            x = random.randint(((breedte-self.breedte_image)//self.lanes)*(i)+10,(((breedte-self.breedte_image)//self.lanes)*(i+1)-10))
+            y = random.randint(0,(lengte-self.breedte_image))
+        
+            self.coordinates_list.append([x,y])
+            self.Check_coordinates()
+            self.Check_doubles()
+
+            self.No_shoot(i)
+
+    # Kijkt op basis van een kans of er een decoy eend moet worden gegenereerd, momenteel is de kan 1 op 5 dat dit gebeurt.
+    def No_shoot(self, i):
+        if random.randint(0,100) < 50:
+            x = random.randint(((breedte-self.breedte_image)//self.lanes)*(i)+10,(((breedte-self.breedte_image)//self.lanes)*(i+1)-10))
+            y = random.randint(0,(lengte-self.breedte_image))
+
+            self.Wrong = 1
+            self.coordinates_list.append([x,y])
+            self.Check_coordinates()
+            self.Wrong = 0
+        
+        else: 
+            self.Wrong_list.append([0,4000])                                                                 # Dit is zo omdat bij het genereren van de plaatjes hij over een lijst heen moet loopen die voldoende gevuld is.
 
     # Het checken van coordinaten gebaseerd op de euclidean disctance (de hemelsbreedte afstand tussen de punten).
     def Check_coordinates(self):
@@ -198,6 +218,31 @@ class Game(Frame):
             if sqrt(((self.coordinates_list[i][0]-self.coordinates_list[-1][0])**2)+((self.coordinates_list[i][1]-self.coordinates_list[-1][1])**2)) < self.breedte_image:
                 self.coordinates_list = self.coordinates_list[:-1]
                 self.New_coordinates_calculation()
+        self.Update_lists()
+
+    # Voegt de juiste coordinaten in de juiste lijst voor verder gebruik
+    def Update_lists(self):
+        if self.Wrong == 0:
+            self.image_coordinates.append(self.coordinates_list[-1])
+            self.Check_doubles()
+        elif self.Wrong == 1:
+            self.Wrong_list.append(self.coordinates_list[-1])
+            self.Check_doubles()
+
+    # Controleerd of de laatste en de op 1 na laatste hetzelfde zijn, en halen deze wel als het zo is.
+    def Check_doubles(self):
+        try:
+            if self.image_coordinates[-2] == self.image_coordinates[-1]:
+                self.image_coordinates = self.image_coordinates[:-1]
+        except IndexError:
+            pass
+        
+        try:
+            if self.Wrong_list[-1] != [0,400]:
+                if self.Wrong_list[-2] == self.Wrong_list[-1]:
+                    self.Wrong_list = self.Wrong_list[:-1]
+        except IndexError:
+            pass
 
     # Als hij binnen de euclidean disctance zit wordt doormiddel van deze functie een nieuw coordinaat gegenereerd.
     # De functie houd rekening met in welke lane het coordinaat moet komen.
@@ -208,13 +253,14 @@ class Game(Frame):
         self.coordinates_list.append([x,y])
         self.Check_coordinates()
 
+        # if self.Wrong == 0:
+        #     self.image_coordinates.append([x,y])
+        # elif self.Wrong == 1:
+        #     self.Wrong_list.append([x,y])
+
     # Deze functie checked of er genoeg coordinaten gegenereerd zijn om alles goed weer te kunnen geven.
     # Om deze scalable te maken wordt er gekeken naar de aantal lanes en hoeveel er op de update_image knop wordt geklikt.
-    def Check_corodinate_quantitiy(self):
-        if (len(self.coordinates_list)-1) > (self.lanes*self.pressed):
-            return True
-        else:
-            return False   
+             
 
     # De functie die de daadwerkelijke plaatjes plaatst op het canvas en het canvas opschoont van vorige eendjes. 
     # De x en y coordinaten worden uit de lijst van lijsten gehaald om vervolgens omgezet te worden naar een xy coordinaat.
@@ -228,10 +274,15 @@ class Game(Frame):
         self.canvas.configure(background="black")
         self.background = "Black"
 
+        # print(self.coordinates_list)
+        print(self.Wrong_list)
+        print(self.image_coordinates)
+
         x = 0
         for j in range(self.lanes):
             x -= 1
-            self.canvas.create_image(self.coordinates_list[x][0],self.coordinates_list[x][1],anchor=NW,image=self.image_list[j])
+            self.canvas.create_image(self.image_coordinates[x][0],self.image_coordinates[x][1],anchor=NW,image=self.image_list[j])
+            self.canvas.create_image(self.Wrong_list[x][0],self.Wrong_list[x][1],anchor=NW,image=self.imageW)       
         
 
     # Deze functie laat doormiddel van een loop de voorgaande plaatjes zien, momenteel staat de "rounds" op 3 (gezien er 3 pijlen per ronden geschoten worden).
@@ -241,8 +292,12 @@ class Game(Frame):
         for i in range(self.rounds):
             for j in range(self.lanes):
                 x -= 1
-                self.canvas.create_image(self.coordinates_list[x][0],self.coordinates_list[x][1],anchor=NW,image=self.image_list[j])
+                self.canvas.create_image(self.image_coordinates[x][0],self.image_coordinates[x][1],anchor=NW,image=self.image_list[j])
+                self.canvas.create_image(self.Wrong_list[x][0],self.Wrong_list[x][1],anchor=NW,image=self.imageW)
+        
         self.coordinates_list.clear()
+        self.image_coordinates.clear()
+        self.Wrong_list.clear()
         self.pressed = 0
 
 
