@@ -100,10 +100,12 @@ class Game(Frame):
         if number == 1:
             imageB = "Images/Duck_easy_blue.png"
             imageR = "Images/Duck_easy_red.png"
+            imageW = "Images/Duck_wrong_hard.png"
             self.breedte_image = 100
         elif number == 2:
             imageB = "Images/Duck_medium_blue.png"
             imageR = "Images/Duck_medium_red.png"
+            imageW = "Images/Duck_wrong_hard.png"
             self.breedte_image = 50
         elif number == 3:
             imageB = "Images/Duck_blue_hard.png"
@@ -127,7 +129,7 @@ class Game(Frame):
             self.image_list.append(self.img0)                       # anders zullen deze niet gegenereerd worden.
             self.image_list.append(self.img1)
 
-        self.coordinates_list = [[0,0]]
+        self.coordinates_list = []
         self.image_coordinates = []
         self.Wrong_list = []
 
@@ -229,7 +231,7 @@ class Game(Frame):
             self.Wrong_list.append(self.coordinates_list[-1])
             self.Check_doubles()
 
-    # Controleerd of de laatste en de op 1 na laatste hetzelfde zijn, en halen deze wel als het zo is.
+    # Controleerd of de laatste en de op 1 na laatste hetzelfde zijn, en halen deze weg als het zo is.
     def Check_doubles(self):
         try:
             if self.image_coordinates[-2] == self.image_coordinates[-1]:
@@ -238,7 +240,7 @@ class Game(Frame):
             pass
         
         try:
-            if self.Wrong_list[-1] != [0,400]:
+            if self.Wrong_list[-1] != [0,4000]:
                 if self.Wrong_list[-2] == self.Wrong_list[-1]:
                     self.Wrong_list = self.Wrong_list[:-1]
         except IndexError:
@@ -252,11 +254,6 @@ class Game(Frame):
 
         self.coordinates_list.append([x,y])
         self.Check_coordinates()
-
-        # if self.Wrong == 0:
-        #     self.image_coordinates.append([x,y])
-        # elif self.Wrong == 1:
-        #     self.Wrong_list.append([x,y])
 
     # Deze functie checked of er genoeg coordinaten gegenereerd zijn om alles goed weer te kunnen geven.
     # Om deze scalable te maken wordt er gekeken naar de aantal lanes en hoeveel er op de update_image knop wordt geklikt.
@@ -282,7 +279,7 @@ class Game(Frame):
         for j in range(self.lanes):
             x -= 1
             self.canvas.create_image(self.image_coordinates[x][0],self.image_coordinates[x][1],anchor=NW,image=self.image_list[j])
-            self.canvas.create_image(self.Wrong_list[x][0],self.Wrong_list[x][1],anchor=NW,image=self.imageW)       
+            self.canvas.create_image(self.Wrong_list[x][0],self.Wrong_list[x][1],anchor=NW,image=self.imageW)
         
 
     # Deze functie laat doormiddel van een loop de voorgaande plaatjes zien, momenteel staat de "rounds" op 3 (gezien er 3 pijlen per ronden geschoten worden).
@@ -295,7 +292,7 @@ class Game(Frame):
                 self.canvas.create_image(self.image_coordinates[x][0],self.image_coordinates[x][1],anchor=NW,image=self.image_list[j])
                 self.canvas.create_image(self.Wrong_list[x][0],self.Wrong_list[x][1],anchor=NW,image=self.imageW)
         
-        self.coordinates_list.clear()
+        self.coordinates_list.clear()                               # Resetten van de lijsten zodat hij niet te veel opslaat, indien dit niet gedaan wordt kan hij uiteindelijk geen nieuwe coordinaten meer vinden en genereren
         self.image_coordinates.clear()
         self.Wrong_list.clear()
         self.pressed = 0
