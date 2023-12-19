@@ -297,7 +297,6 @@ class Game(Frame):
         self.Wrong_list.clear()
         self.pressed = 0
 
-
 if __name__=="__main__":
     app=MainApp()
     app.mainloop()
