@@ -37,13 +37,19 @@ class Difficulty_selector(Frame):
         Frame.__init__(self, master, **kwargs)
 
         master.title("Difficulty selector")
-        master.geometry("300x200")
+        master.geometry("700x700")
         self.status = Label(self)
         self.status.pack()
         lbl = Label(self, text='How many lanes?')
         lbl.pack()
         self.lane_amount = Entry(self)
         self.lane_amount.pack()
+
+        lbl = Label(self, text='% Wrong ducks?')
+        lbl.pack()
+        self.No_shoot_input = Entry(self)
+        self.No_shoot_input.pack()
+        
         lbl = Label(self, text='Enter difficulty')
         lbl.pack()
         btn = Button(self, text="Easy", command=self.Easy)
@@ -59,6 +65,13 @@ class Difficulty_selector(Frame):
     def Easy(self, event=None):
         global number
         number = 1
+        global No_shoot_val
+        No_shoot_val = self.No_shoot_input.get()
+        try:                                                        # Als het geen getal is of er is niks ingevuld is maakt hij er automatisch 2 van.
+            No_shoot_val = int(No_shoot_val)
+        except:
+            No_shoot_val = 10
+        
         global Amount_of_lanes
         enrty_value = self.lane_amount.get()                        # Entry veld voor lanes, atm moet het een even getal zijn voor image generatie.
         try:                                                        # Als het geen getal is of er is niks ingevuld is maakt hij er automatisch 2 van.
@@ -70,6 +83,13 @@ class Difficulty_selector(Frame):
     def Medium(self, event=None):
         global number
         number = 2
+        global No_shoot_val
+        No_shoot_val = self.No_shoot_input.get()
+        try:                                                        # Als het geen getal is of er is niks ingevuld is maakt hij er automatisch 2 van.
+            No_shoot_val = int(No_shoot_val)
+        except:
+            No_shoot_val = 50
+
         global Amount_of_lanes
         enrty_value = self.lane_amount.get()
         try:
@@ -81,6 +101,13 @@ class Difficulty_selector(Frame):
     def Hard(self, event=None):
         global number
         number = 3
+        global No_shoot_val
+        No_shoot_val = self.No_shoot_input.get()
+        try:                                                        # Als het geen getal is of er is niks ingevuld is maakt hij er automatisch 2 van.
+            No_shoot_val = int(No_shoot_val)
+        except:
+            No_shoot_val = 70
+
         global Amount_of_lanes
         enrty_value = self.lane_amount.get()
         try:
@@ -92,6 +119,13 @@ class Difficulty_selector(Frame):
     def Ring_Game(self, event=None):
         global number
         number = 4
+        global No_shoot_val
+        No_shoot_val = self.No_shoot_input.get()
+        try:                                                        # Als het geen getal is of er is niks ingevuld is maakt hij er automatisch 2 van.
+            No_shoot_val = int(No_shoot_val)
+        except:
+            No_shoot_val = 200
+
         global Amount_of_lanes
         enrty_value = self.lane_amount.get()
         try:
@@ -221,7 +255,7 @@ class Game(Frame):
 
     # Kijkt op basis van een kans of er een decoy eend moet worden gegenereerd, momenteel is de kan 1 op 5 dat dit gebeurt.
     def No_shoot(self, i):
-        if random.randint(0,100) < 50:
+        if random.randint(0,100) < No_shoot_val:
             x = random.randint(((breedte-self.breedte_image)//self.lanes)*(i)+10,(((breedte-self.breedte_image)//self.lanes)*(i+1)-10))
             y = random.randint(0,(lengte-self.breedte_image))
 
