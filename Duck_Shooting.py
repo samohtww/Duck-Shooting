@@ -52,6 +52,9 @@ class Difficulty_selector(Frame):
         btn.pack()
         btn = Button(self, text="Hard", command=self.Hard)
         btn.pack()
+        btn = Button(self, text="Ring game test", command=self.Ring_Game)
+        btn.pack()
+
 
     def Easy(self, event=None):
         global number
@@ -86,6 +89,17 @@ class Difficulty_selector(Frame):
             Amount_of_lanes = 2
         self.master.change(Game)
 
+    def Ring_Game(self, event=None):
+        global number
+        number = 4
+        global Amount_of_lanes
+        enrty_value = self.lane_amount.get()
+        try:
+            Amount_of_lanes = int(enrty_value)
+        except:
+            Amount_of_lanes = 2
+        self.master.change(Game)
+
 
 # Het daad werkelijke Game scherm met in de __init__: De difficulty verwerking, de keuze van de afbeeldingen en de parameters: lanes, rounds en pressed.
 # Lanes gaat over de hoeveel heid banen die in gebruik zijn, rounds gaat over de hoeveelheid pijlen er per ronde geschoten worden en
@@ -110,6 +124,11 @@ class Game(Frame):
         elif number == 3:
             imageB = "Images/Duck_blue_hard.png"
             imageR = "Images/Duck_red_hard.png"
+            imageW = "Images/Duck_wrong_hard.png"
+            self.breedte_image = 40
+        elif number == 4:
+            imageB = "Images/Blue_Ring.png"
+            imageR = "Images/Red_Ring.png"
             imageW = "Images/Duck_wrong_hard.png"
             self.breedte_image = 40
 
