@@ -37,7 +37,7 @@ class Difficulty_selector(Frame):
         Frame.__init__(self, master, **kwargs)
 
         master.title("Difficulty selector")
-        master.geometry("700x700")
+        master.geometry("500x300")
         self.status = Label(self)
         self.status.pack()
         lbl = Label(self, text='How many lanes?')
@@ -170,7 +170,7 @@ class Game(Frame):
         self.img1 = ImageTk.PhotoImage(Image.open(imageR))
         self.imageW = ImageTk.PhotoImage(Image.open(imageW))
 
-        self.rounds = 3
+        self.rounds = 6
         self.lanes = Amount_of_lanes                                              # Door het aantal images dat momenteel in de loop staan moet dit een even getal zijn anders genereerd
         self.pressed = 0                                                          # hij 1 (of meerdere) image(s) niet en kan je niet de vorigen images zien.
         self.background = "Black"                                                 
