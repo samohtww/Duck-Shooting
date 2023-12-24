@@ -113,6 +113,7 @@ class Game(Frame):
 		self.imageW = ImageTk.PhotoImage(Image.open(imageW))
 
 		self.rounds = 3
+		self.round = 0
 		self.lanes = Amount_of_lanes                                              # Door het aantal images dat momenteel in de loop staan moet dit een even getal zijn anders genereerd
 		self.pressed = 0                                                          # hij 1 (of meerdere) image(s) niet en kan je niet de vorigen images zien.
 		self.background = "Black"                                                 
@@ -166,30 +167,10 @@ class Game(Frame):
 		self.master.after(int(Seconds * 1000), var.set, 1)
 		self.master.wait_variable(var)
 
-	# def Wait1(self):
-	# 	var = IntVar()
-	# 	self.master.after(800, var.set, 1)
-	# 	self.master.wait_variable(var)
-		
-	# def Wait2(self):
-	# 	var = IntVar()
-	# 	self.master.after(2000, var.set, 1)
-	# 	self.master.wait_variable(var)
-
-	# def Wait5(self):
-	# 	var = IntVar()
-	# 	self.master.after(5000, var.set, 1)
-	# 	self.master.wait_variable(var)
-
-	# def Wait10(self):
-	# 	var = IntVar()
-	# 	self.master.after(10000, var.set, 1)
-	# 	self.master.wait_variable(var)
-
 
 	def GenAllCoordinates(self):
-		l_CoordList = numpy.array([[[0] * 2] * 3] * self.lanes)
-		print(l_CoordList)
+		l_CoordList = numpy.array([[[0] * 2] * self.rounds] * self.lanes)
+		# print(l_CoordList)
 
 
 		lane = 0
@@ -197,41 +178,31 @@ class Game(Frame):
 			Overlap = 1
 			attempts = 0
 			round = 0
-			while round < 3:
-				while 1:
-					x, y = self.RandomXY(lane)
-					if round == 0:
-						l_CoordList[lane][round] = x, y
-						attempts = 0
+			while round < self.rounds:
+				# while 1:
+				x, y = self.RandomXY(lane)
+				i = 0
+				while i < round:
+					if self.EuclideanDistance(l_CoordList[lane][i][0], l_CoordList[lane][i][1], x, y) < self.breedte_image * Overlap:
+						attempts += 1
 						break
-					elif round == 1:
-						if self.EuclideanDistance(l_CoordList[lane][0][0], l_CoordList[lane][0][1], x, y) < self.breedte_image * Overlap:
-							attempts += 1
-							continue
-						else:
-							l_CoordList[lane][round] = x, y
-							attempts = 0
-							break
-					elif round == 2:
-						if self.EuclideanDistance(l_CoordList[lane][0][0], l_CoordList[lane][0][1], x, y) < self.breedte_image * Overlap or \
-						   self.EuclideanDistance(l_CoordList[lane][1][0], l_CoordList[lane][1][1], x, y) < self.breedte_image * Overlap:
-						   attempts += 1
-						   continue
-						else:
-							l_CoordList[lane][round] = x, y
-							attempts = 0
-							break
-					if attempts >= 100:
-						Overlap -= 0.1
-						round = 0
-				round += 1
+					i += 1
+				else:
+					l_CoordList[lane][round] = x, y
+					attempts = 0
+					round += 1
+
+				if attempts >= 100:
+					Overlap -= 0.1
+					round = 0
 			lane += 1
+			print(Overlap)
 
 
 		# print("x: " + str(x) + "\ty: " + str(y))
 		# l_CoordList[lane][round] = x, y
 		self.NewCoordiatesList = l_CoordList
-		print(self.NewCoordiatesList)
+		# print(self.NewCoordiatesList)
 
 	def EuclideanDistance(self, x1: int, y1: int, x2: int, y2: int) -> int:
 		return (sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2))
@@ -247,28 +218,31 @@ class Game(Frame):
 	# De coordinaten worden overigens via de random functie gegenereerd, de random functie heeft verschillende parameters die ervoor zorgen dat de coordinaten binnen het scherm vallen.
 	def Get_coordinates(self, event=None):
 		self.lane_number = 0
+		if self.round >= self.rounds:
+			self.round = 0
 		for i in range(self.lanes):
 			self.lane_number += 1
 			# LaneWidth = ((breedte - self.breedte_image) // self.lanes)
-			LaneWidth = breedte // self.lanes
-			x = random.randint(LaneWidth * (i) + 10, (LaneWidth * (i + 1) - self.breedte_image) - 10)
-			y = random.randint(0, hoogte - self.breedte_image)
+			# LaneWidth = breedte // self.lanes
+			# x = random.randint(LaneWidth * (i) + 10, (LaneWidth * (i + 1) - self.breedte_image) - 10)
+			# y = random.randint(0, hoogte - self.breedte_image)
 
-			j = 0
-			while j < len(self.coordinates_list):
-				if sqrt(((self.coordinates_list[j][0] - x) **2) + ((self.coordinates_list[j][1] - y) **2)) < self.breedte_image:
-					x = random.randint(LaneWidth * (i) + 10, (LaneWidth * (i + 1) - self.breedte_image) - 10)
-					y = random.randint(0, hoogte - self.breedte_image)
-					j = 0
-					continue
-				j += 1
-
+			# j = 0
+			# while j < len(self.coordinates_list):
+			# 	if sqrt(((self.coordinates_list[j][0] - x) **2) + ((self.coordinates_list[j][1] - y) **2)) < self.breedte_image:
+			# 		x = random.randint(LaneWidth * (i) + 10, (LaneWidth * (i + 1) - self.breedte_image) - 10)
+			# 		y = random.randint(0, hoogte - self.breedte_image)
+			# 		j = 0
+			# 		continue
+			# 	j += 1
+			x, y = self.NewCoordiatesList[i][self.round]
 			self.coordinates_list.append([x, y])
 			# self.Check_coordinates()
 			self.Update_lists()
 			self.Check_doubles()
+			# self.No_shoot(i)
+		self.round += 1
 
-			self.No_shoot(i)
 
 	# Kijkt op basis van een kans of er een decoy eend moet worden gegenereerd, momenteel is de kan 1 op 5 dat dit gebeurt.
 	def No_shoot(self, i):
@@ -360,8 +334,8 @@ class Game(Frame):
 		for j in range(self.lanes):
 			x -= 1
 			self.canvas.create_image(self.image_coordinates[x][0], self.image_coordinates[x][1], anchor=NW, image=self.image_list[j])
-			self.canvas.create_image(self.Wrong_list[x][0], self.Wrong_list[x][1], anchor=NW, image=self.imageW)
-		
+			# self.canvas.create_image(self.Wrong_list[x][0], self.Wrong_list[x][1], anchor=NW, image=self.imageW)
+
 
 	# Deze functie laat doormiddel van een loop de voorgaande plaatjes zien, momenteel staat de "rounds" op 3 (gezien er 3 pijlen per ronden geschoten worden).
 	# Daarnaast wordt er ook rekening gehouden met de hoeveelheid lanes in de 2de loop.
@@ -371,9 +345,11 @@ class Game(Frame):
 			for j in range(self.lanes):
 				x -= 1
 				self.canvas.create_image(self.image_coordinates[x][0], self.image_coordinates[x][1], anchor=NW, image=self.image_list[j])
-				self.canvas.create_image(self.Wrong_list[x][0], self.Wrong_list[x][1], anchor=NW, image=self.imageW)
+				# self.canvas.create_image(self.Wrong_list[x][0], self.Wrong_list[x][1], anchor=NW, image=self.imageW)
 		
 		self.coordinates_list.clear()                               # Resetten van de lijsten zodat hij niet te veel opslaat, indien dit niet gedaan wordt kan hij uiteindelijk geen nieuwe coordinaten meer vinden en genereren
+		self.GenAllCoordinates()
+		print(self.NewCoordiatesList)
 		self.image_coordinates.clear()
 		self.Wrong_list.clear()
 		self.pressed = 0
