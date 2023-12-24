@@ -11,7 +11,7 @@ resolutie = "1700x300"
 
 # Gemaakt door Thom Lamens en Matthew Unterberger, voor vragen schroom niet om een berichtje te sturen.
 
-
+ 
 # TO-DO (voeg iest toe als je iets gedaan wilt hebben):
 # 1. Functionerend maken van Easy Ducks (mogen erg dicht bij elkaar)
 # 2. Eventuele verdere verbeteringen en of opschoning (niet perse noodzakelijk)
@@ -49,6 +49,11 @@ class Difficulty_selector(Frame):
         lbl.pack()
         self.No_shoot_input = Entry(self)
         self.No_shoot_input.pack()
+
+        lbl = Label(self, text='tijd tussen eenden? WERKT NIET IN DEZE VERSIE')
+        lbl.pack()
+        self.Duck_interval = Entry(self)
+        self.Duck_interval.pack()
         
         lbl = Label(self, text='Enter difficulty')
         lbl.pack()
@@ -124,7 +129,7 @@ class Difficulty_selector(Frame):
         try:                                                        # Als het geen getal is of er is niks ingevuld is maakt hij er automatisch 2 van.
             No_shoot_val = int(No_shoot_val)
         except:
-            No_shoot_val = 200
+            No_shoot_val = 100
 
         global Amount_of_lanes
         enrty_value = self.lane_amount.get()
@@ -170,7 +175,7 @@ class Game(Frame):
         self.img1 = ImageTk.PhotoImage(Image.open(imageR))
         self.imageW = ImageTk.PhotoImage(Image.open(imageW))
 
-        self.rounds = 6
+        self.rounds = 3
         self.lanes = Amount_of_lanes                                              # Door het aantal images dat momenteel in de loop staan moet dit een even getal zijn anders genereerd
         self.pressed = 0                                                          # hij 1 (of meerdere) image(s) niet en kan je niet de vorigen images zien.
         self.background = "Black"                                                 
