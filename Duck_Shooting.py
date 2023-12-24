@@ -50,10 +50,7 @@ class Difficulty_selector(Frame):
         self.No_shoot_input = Entry(self)
         self.No_shoot_input.pack()
 
-        lbl = Label(self, text='tijd tussen eenden? WERKT NIET IN DEZE VERSIE')
-        lbl.pack()
-        self.Duck_interval = Entry(self)
-        self.Duck_interval.pack()
+
         
         lbl = Label(self, text='Enter difficulty')
         lbl.pack()
@@ -64,6 +61,8 @@ class Difficulty_selector(Frame):
         btn = Button(self, text="Hard", command=self.Hard)
         btn.pack()
         btn = Button(self, text="Ring game test", command=self.Ring_Game)
+        btn.pack()
+        btn = Button(self, text="Dot game test", command=self.Dot_game)
         btn.pack()
 
 
@@ -139,6 +138,24 @@ class Difficulty_selector(Frame):
             Amount_of_lanes = 2
         self.master.change(Game)
 
+    def Dot_game(self, event=None):
+        global number
+        number = 5
+        global No_shoot_val
+        No_shoot_val = self.No_shoot_input.get()
+        try:                                                        # Als het geen getal is of er is niks ingevuld is maakt hij er automatisch 2 van.
+            No_shoot_val = int(No_shoot_val)
+        except:
+            No_shoot_val = 0
+
+        global Amount_of_lanes
+        enrty_value = self.lane_amount.get()
+        try:
+            Amount_of_lanes = int(enrty_value)
+        except:
+            Amount_of_lanes = 2
+        self.master.change(Game)
+
 
 # Het daad werkelijke Game scherm met in de __init__: De difficulty verwerking, de keuze van de afbeeldingen en de parameters: lanes, rounds en pressed.
 # Lanes gaat over de hoeveel heid banen die in gebruik zijn, rounds gaat over de hoeveelheid pijlen er per ronde geschoten worden en
@@ -170,6 +187,12 @@ class Game(Frame):
             imageR = "Images/Red_Ring.png"
             imageW = "Images/Duck_wrong_hard.png"
             self.breedte_image = 40
+        elif number == 5:
+            imageB = "Images/Blue_Dot.png"
+            imageR = "Images/Red_Dot.png"
+            imageW = "Images/Duck_wrong_hard.png"
+            self.breedte_image = 40
+
 
         self.img0 = ImageTk.PhotoImage(Image.open(imageB))
         self.img1 = ImageTk.PhotoImage(Image.open(imageR))
