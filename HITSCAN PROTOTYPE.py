@@ -1,33 +1,34 @@
 # HITSCAN PROTOTYPE
-from os.path import exists
-
-# import cv2
-# assert os.path.exists('HITSCAN TEST IMAGES/TEST2')
-# img = cv2.imread('HITSCAN TEST IMAGES/TEST2', 0)
-
-# print(img)
 
 
+import cv2
+
+img = cv2.imread('C:/Users/Matthew/Documents/GitHub/Duck_shooting_shared/Duck-Shooting/Hitscan prototype/HITSCAN TEST IMAGES/HITSCAN TEST IMAGES/TEST2.jpg', 0)
+
+cv2.imshow('image', img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
 
 
-import os
 
-# Specifying path
+# import os
 
-path = 'C:/Users/Matthew/Documents/GitHub/Duck_shooting_shared/Duck-Shooting/Images/Red_Ring.png'
+# # Specifying path
 
-# Checking whether the specified path exists
+# path = 'C:/Users/Matthew/Documents/GitHub/Duck_shooting_shared/Duck-Shooting/Images/Red_Ring.png'
 
-isExisting = os.path.exists(path)
+# # Checking whether the specified path exists
 
-print(isExisting)
+# isExisting = os.path.exists(path)
 
-# Specifying path
+# print(isExisting)
 
-path = 'C:/Users/Matthew/Documents/GitHub/Duck_shooting_shared/Duck-Shooting/Hitscan prototype/HITSCAN TEST IMAGES/HITSCAN TEST IMAGES/TEST2'
+# # Specifying path
 
-# Checking whether the specified path exists
+# path = 'C:/Users/Matthew/Documents/GitHub/Duck_shooting_shared/Duck-Shooting/Hitscan prototype/HITSCAN TEST IMAGES/HITSCAN TEST IMAGES/TEST2.jpg'
 
-isExisting = os.path.exists(path)
+# # Checking whether the specified path exists
 
-print(isExisting)
+# isExisting = os.path.exists(path)
+
+# # print(isExisting)

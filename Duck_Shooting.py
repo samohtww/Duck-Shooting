@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 import random
 from playsound import playsound
 from math import *
-from pathlib import Path
+import os
 
 
 
@@ -109,7 +109,7 @@ class Difficulty_selector(Frame):
 		self.setlane()
 		self.ProcWrongDuck(proc)
 
-	def SetTimeToStart(self):
+	def ](self):
 		global TimeToStart
 		enrty_value = self.Time_1.get()
 		try:
@@ -142,7 +142,7 @@ class Game(Frame):
 		master.title("Main application")
 		master.geometry(resolutie)
 		self.canvas = Canvas(master, width=breedte, height=lengte, background="black")
-		current_working_directory = str(Path.cwd()).replace("\\", "/")
+		current_working_directory = os.path.dirname(__file__)
 
 		if number == 1:
 			imageB = current_working_directory + "/Images/Duck_easy_blue.png"
