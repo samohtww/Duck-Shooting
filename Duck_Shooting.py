@@ -6,8 +6,10 @@ from playsound import playsound
 from math import *
 from pathlib import Path
 
-breedte = 1800
-lengte = 300
+
+
+breedte = 1900
+lengte = 400
 resolutie = "1800x300"
 
 # Gemaakt door Thom Lamens en Matthew Unterberger, voor vragen schroom niet om een berichtje te sturen.
