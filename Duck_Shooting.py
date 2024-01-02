@@ -8,14 +8,14 @@ import os
 
 
 
-breedte = 1900
-lengte = 400
+breedte = 1800
+lengte = 300
 resolutie = "1800x300"
 
 # Gemaakt door Thom Lamens en Matthew Unterberger, voor vragen schroom niet om een berichtje te sturen.
 
  
-# TO-DO (voeg iest toe als je iets gedaan wilt hebben):
+# TO-DO (voeg iest toe als je iets gedaan wilt hebben):11
 # 1. Functionerend maken van Easy Ducks (mogen erg dicht bij elkaar)
 # 2. Eventuele verdere verbeteringen en of opschoning (niet perse noodzakelijk)
 
@@ -109,7 +109,7 @@ class Difficulty_selector(Frame):
 		self.setlane()
 		self.ProcWrongDuck(proc)
 
-	def ](self):
+	def SetTimeToStart(self):
 		global TimeToStart
 		enrty_value = self.Time_1.get()
 		try:
@@ -141,14 +141,14 @@ class Game(Frame):
 		Frame.__init__(self, master, **kwargs)
 		master.title("Main application")
 		master.geometry(resolutie)
-		self.canvas = Canvas(master, width=breedte, height=lengte, background="black")
+		self.canvas = Canvas(master, width=breedte, height=lengte, background="Gray")
 		current_working_directory = os.path.dirname(__file__)
 
 		if number == 1:
 			imageB = current_working_directory + "/Images/Duck_easy_blue.png"
 			imageR = current_working_directory + "/Images/Duck_easy_red.png"
 			imageW = current_working_directory + "/Images/Duck_wrong_hard.png"
-			self.breedte_image = 100
+			self.breedte_image = 50
 		elif number == 2:
 			imageB = current_working_directory + "/Images/Duck_medium_blue.png"
 			imageR = current_working_directory + "/Images/Duck_medium_red.png"
@@ -157,17 +157,17 @@ class Game(Frame):
 		elif number == 3:
 			imageB = current_working_directory + "/Images/Duck_blue_hard.png"
 			imageR = current_working_directory + "/Images/Duck_red_hard.png"
-			imageW = current_working_directory + "/Images/Duck_wrong_hard.png"
+			imageW = current_working_directory + "/Images/Carrow1.png"
 			self.breedte_image = 40
 		elif number == 4:
 			imageB = current_working_directory + "/Images/Blue_Ring.png"
 			imageR = current_working_directory + "/Images/Red_Ring.png"
-			imageW = current_working_directory + "/Images/Duck_wrong_hard.png"
+			imageW = current_working_directory + "/Images/Carrow1.png"
 			self.breedte_image = 40
 		elif number == 5:
 			imageB = current_working_directory + "/Images/Blue_Dot.png"
 			imageR = current_working_directory + "/Images/Red_Dot.png"
-			imageW = current_working_directory + "/Images/Duck_wrong_hard.png"
+			imageW = current_working_directory + "/Images/Carrow1.png"
 			self.breedte_image = 40
 
 
@@ -178,7 +178,7 @@ class Game(Frame):
 		self.rounds = 3
 		self.lanes = Amount_of_lanes                                              # Door het aantal images dat momenteel in de loop staan moet dit een even getal zijn anders genereerd
 		self.pressed = 0                                                          # hij 1 (of meerdere) image(s) niet en kan je niet de vorigen images zien.
-		self.background = "Black"                                                 
+		self.background = "Gray"                                                 
 		
 		self.Wrong = 0
 
@@ -198,12 +198,12 @@ class Game(Frame):
 		self.master.bind("<Down>", self.Update_color)
 
 	def Update_color(self, event=None):
-		if self.background == "Black":
+		if self.background == "Gray":
 			self.canvas.configure(background="Gray")
 			self.background = "Gray"
 		elif self.background == "Gray":
-			self.canvas.configure(background="Black")
-			self.background = "Black"  
+			self.canvas.configure(background="Gray")
+			self.background = "Gray"  
 
 
 	# Het automatisch laten runnen van de applicatie, momenteel geregeld door verschillende functies die de applicatie een aantal seconden laat wachten.
@@ -326,8 +326,8 @@ class Game(Frame):
 		self.pressed += 1
 		self.Get_coordinates()
 		
-		self.canvas.configure(background="black")
-		self.background = "Black"
+		self.canvas.configure(background="Gray")
+		self.background = "Gray"
 
 		# print(self.coordinates_list)
 		print(self.Wrong_list)
