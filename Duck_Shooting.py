@@ -47,7 +47,6 @@ class Difficulty_selector(Frame):
 		lbl.pack()
 		self.lane_amount = Entry(self)
 		self.lane_amount.pack()
-
 		lbl = Label(self, text='% Wrong ducks?')
 		lbl.pack()
 		self.No_shoot_input = Entry(self)
@@ -157,17 +156,17 @@ class Game(Frame):
 		elif number == 3:
 			imageB = current_working_directory + "/Images/Duck_blue_hard.png"
 			imageR = current_working_directory + "/Images/Duck_red_hard.png"
-			imageW = current_working_directory + "/Images/Carrow1.png"
+			imageW = current_working_directory + "/Images/Duck_wrong_hard.png"
 			self.breedte_image = 40
 		elif number == 4:
 			imageB = current_working_directory + "/Images/Blue_Ring.png"
 			imageR = current_working_directory + "/Images/Red_Ring.png"
-			imageW = current_working_directory + "/Images/Carrow1.png"
+			imageW = current_working_directory + "/Images/Duck_wrong_hard.png"
 			self.breedte_image = 40
 		elif number == 5:
 			imageB = current_working_directory + "/Images/Blue_Dot.png"
 			imageR = current_working_directory + "/Images/Red_Dot.png"
-			imageW = current_working_directory + "/Images/Carrow1.png"
+			imageW = current_working_directory + "/Images/Duck_wrong_hard.png"
 			self.breedte_image = 40
 
 
@@ -195,16 +194,8 @@ class Game(Frame):
 		self.master.bind("<Left>", self.Update_image)
 		self.master.bind("<Up>", self.Show_previous_imgages)
 		self.master.bind("<Right>", self.Auto_run)
-		self.master.bind("<Down>", self.Update_color)
-		
-		self.Create_line()
-	
-	def Create_line(self):
-		for i in range(self.lanes):
-			if ((breedte//self.lanes)(i+1)) > 0.97*breedte:
-				self.canvas.pack()
-			else:
-				self.canvas.create_line((breedte//self.lanes)(i+1), 0, (breedte//self.lanes)(i+1), lengte, fill="white")
+		self.master.bind("<Down>", self.Delete_screen)
+		# self.master.bind("<Down>", self.Update_image)
 
 	def Update_color(self, event=None):
 		if self.background == "Gray":
@@ -221,7 +212,8 @@ class Game(Frame):
 	def Auto_run(self, event=None):
 		for i in range(3):
 			for j in range(2):
-				playsound('Sounds/Ping.mp3')
+				current_working_directory = os.path.dirname(__file__)
+				playsound(current_working_directory + '/Sounds/Ping.mp3')
 				self.Wait(1)
 			
 			self.Wait(TimeToStart)
@@ -335,8 +327,8 @@ class Game(Frame):
 		self.pressed += 1
 		self.Get_coordinates()
 		
-		self.canvas.configure(background="Gray")
-		self.background = "Gray"
+		self.canvas.configure(background="Grey")
+		self.background = "Grey"
 
 		# print(self.coordinates_list)
 		print(self.Wrong_list)
@@ -347,7 +339,10 @@ class Game(Frame):
 			x -= 1
 			self.canvas.create_image(self.image_coordinates[x][0],self.image_coordinates[x][1],anchor=NW,image=self.image_list[j])
 			self.canvas.create_image(self.Wrong_list[x][0],self.Wrong_list[x][1],anchor=NW,image=self.imageW)
-		
+	
+	def Delete_screen(self, event=None):
+		self.canvas.delete('all')
+
 
 	# Deze functie laat doormiddel van een loop de voorgaande plaatjes zien, momenteel staat de "rounds" op 3 (gezien er 3 pijlen per ronden geschoten worden).
 	# Daarnaast wordt er ook rekening gehouden met de hoeveelheid lanes in de 2de loop.
@@ -359,12 +354,10 @@ class Game(Frame):
 				self.canvas.create_image(self.image_coordinates[x][0],self.image_coordinates[x][1],anchor=NW,image=self.image_list[j])
 				self.canvas.create_image(self.Wrong_list[x][0],self.Wrong_list[x][1],anchor=NW,image=self.imageW)
 		
-		self.Create_line()
 		self.coordinates_list.clear()                               # Resetten van de lijsten zodat hij niet te veel opslaat, indien dit niet gedaan wordt kan hij uiteindelijk geen nieuwe coordinaten meer vinden en genereren
 		self.image_coordinates.clear()
 		self.Wrong_list.clear()
 		self.pressed = 0
-		
 
 if __name__=="__main__":
 	app=MainApp()
