@@ -143,8 +143,10 @@ class Game(Frame):
 
     def Create_line(self):
         for i in range(self.lanes):
-            self.canvas.create_line((breedte//self.lanes)*(i+1), 0, (breedte//self.lanes)*(i+1), lengte, fill="white")
-        self.canvas.pack()
+            if ((breedte//self.lanes)*(i+1)) > 0.97*breedte:
+                self.canvas.pack()
+            else:
+                self.canvas.create_line((breedte//self.lanes)*(i+1), 0, (breedte//self.lanes)*(i+1), lengte, fill="white")
     
     def Update_color(self, event=None):
         if self.background == "Black":
