@@ -139,6 +139,13 @@ class Game(Frame):
         self.master.bind("<Right>", self.Auto_run)
         self.master.bind("<Down>", self.Update_color)
 
+        self.Create_line()
+
+    def Create_line(self):
+        for i in range(self.lanes):
+            self.canvas.create_line((breedte//self.lanes)*(i+1), 0, (breedte//self.lanes)*(i+1), lengte, fill="white")
+        self.canvas.pack()
+    
     def Update_color(self, event=None):
         if self.background == "Black":
             self.canvas.configure(background="Gray")
@@ -291,6 +298,8 @@ class Game(Frame):
                 x -= 1
                 self.canvas.create_image(self.image_coordinates[x][0],self.image_coordinates[x][1],anchor=NW,image=self.image_list[j])
                 self.canvas.create_image(self.Wrong_list[x][0],self.Wrong_list[x][1],anchor=NW,image=self.imageW)
+
+        self.Create_line()
         
         self.coordinates_list.clear()                               # Resetten van de lijsten zodat hij niet te veel opslaat, indien dit niet gedaan wordt kan hij uiteindelijk geen nieuwe coordinaten meer vinden en genereren
         self.image_coordinates.clear()
