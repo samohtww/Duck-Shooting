@@ -196,6 +196,15 @@ class Game(Frame):
 		self.master.bind("<Up>", self.Show_previous_imgages)
 		self.master.bind("<Right>", self.Auto_run)
 		self.master.bind("<Down>", self.Update_color)
+		
+		self.Create_line()
+	
+	def Create_line(self):
+		for i in range(self.lanes):
+			if ((breedte//self.lanes)(i+1)) > 0.97*breedte:
+				self.canvas.pack()
+			else:
+				self.canvas.create_line((breedte//self.lanes)(i+1), 0, (breedte//self.lanes)(i+1), lengte, fill="white")
 
 	def Update_color(self, event=None):
 		if self.background == "Gray":
@@ -350,10 +359,12 @@ class Game(Frame):
 				self.canvas.create_image(self.image_coordinates[x][0],self.image_coordinates[x][1],anchor=NW,image=self.image_list[j])
 				self.canvas.create_image(self.Wrong_list[x][0],self.Wrong_list[x][1],anchor=NW,image=self.imageW)
 		
+		self.Create_line()
 		self.coordinates_list.clear()                               # Resetten van de lijsten zodat hij niet te veel opslaat, indien dit niet gedaan wordt kan hij uiteindelijk geen nieuwe coordinaten meer vinden en genereren
 		self.image_coordinates.clear()
 		self.Wrong_list.clear()
 		self.pressed = 0
+		
 
 if __name__=="__main__":
 	app=MainApp()

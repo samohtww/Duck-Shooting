@@ -21,7 +21,7 @@ while True:
     for cnt in contours:
 
         area = cv2.contourArea(cnt)
-        if area < 200:
+        if area < 700 and area > 300:
             cv2.drawContours(frame, [cnt], -1, (255, 0, 0), 4) 
 
 
