@@ -195,16 +195,16 @@ class Game(Frame):
 		self.master.bind("<Left>", self.Update_image)
 		self.master.bind("<Up>", self.Show_previous_imgages)
 		self.master.bind("<Right>", self.Auto_run)
-		self.master.bind("<Down>", self.Update_color)
+		self.master.bind("<Down>", self.Clearscreen)
+		self.master.bind("<9>", self.Create_line)
 		
-		self.Create_line()
 	
-	def Create_line(self):
+	def Create_line(self, event=None):
 		for i in range(self.lanes):
-			if ((breedte//self.lanes)(i+1)) > 0.97*breedte:
+			if ((breedte//self.lanes)*(i+1)) > 0.97*breedte:
 				self.canvas.pack()
 			else:
-				self.canvas.create_line((breedte//self.lanes)(i+1), 0, (breedte//self.lanes)(i+1), lengte, fill="white")
+				self.canvas.create_line((breedte//self.lanes)*(i+1), 0, (breedte//self.lanes)*(i+1), lengte, fill="white")
 
 	def Update_color(self, event=None):
 		if self.background == "Gray":
@@ -219,17 +219,21 @@ class Game(Frame):
 	# Het is geprobeerd om dit in de functie zelf toe te passen, alleen verschenen er toen geen eendjes op het scherm;
 	# De coordinaten werden wel gegenereerd maar het canvas liet de plaatjes niet zien.
 	def Auto_run(self, event=None):
+		current_working_directory = os.path.dirname(__file__)
 		for i in range(3):
 			for j in range(2):
-				playsound('Sounds/Ping.mp3')
+				playsound(current_working_directory + 'Sounds/Ping.mp3')
 				self.Wait(1)
-			
+			self.Create_line()
 			self.Wait(TimeToStart)
 			self.Update_image()
 			self.Wait(10)
 			self.canvas.delete('all')
 			self.Wait(2)
 		self.Show_previous_imgages()
+
+	def Clearscreen(self, event=None):
+		self.canvas.delete('all')
 
 	def Wait(self, seconds: float):
 		var = IntVar()
@@ -358,8 +362,8 @@ class Game(Frame):
 				x -= 1
 				self.canvas.create_image(self.image_coordinates[x][0],self.image_coordinates[x][1],anchor=NW,image=self.image_list[j])
 				self.canvas.create_image(self.Wrong_list[x][0],self.Wrong_list[x][1],anchor=NW,image=self.imageW)
-		
 		self.Create_line()
+		
 		self.coordinates_list.clear()                               # Resetten van de lijsten zodat hij niet te veel opslaat, indien dit niet gedaan wordt kan hij uiteindelijk geen nieuwe coordinaten meer vinden en genereren
 		self.image_coordinates.clear()
 		self.Wrong_list.clear()

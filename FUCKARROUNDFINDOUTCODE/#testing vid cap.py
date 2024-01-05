@@ -2,7 +2,7 @@
 import numpy as np 
 import cv2 
   
-cap = cv2.VideoCapture(0) 
+cap = cv2.VideoCapture(1) 
 def make_1080p():
     cap.set(3, 1920)
     cap.set(4, 1080)
@@ -26,8 +26,8 @@ while True:
 
 
     # Using resizeWindow() 
-    cv2.resizeWindow("Image", 900, 300) 
-    cv2.resizeWindow("Image1", 1800, 1000) 
+    cv2.resizeWindow("Image", 1800, 300) 
+    cv2.resizeWindow("Image1", 1800, 300) 
 
     cv2.imshow('Image', mask)
     cv2.imshow('Image1', frame)
