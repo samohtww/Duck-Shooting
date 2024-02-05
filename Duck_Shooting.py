@@ -17,7 +17,8 @@ resolutie = "1800x300"
  
 # TO-DO (voeg iest toe als je iets gedaan wilt hebben):11
 # 1. Functionerend maken van Easy Ducks (mogen erg dicht bij elkaar)
-# 2. Eventuele verdere verbeteringen en of opschoning (niet perse noodzakelijk)
+# 2. Eventuele verdere verbeteringen en of opschoning (niet perse noodzakelijk)]
+
 
 
 # De tkinter mainloop die ervoor zorgt dat er verschillende frames in beeld komen
@@ -73,6 +74,12 @@ class Difficulty_selector(Frame):
 		btn.pack()
 		btn = Button(self, text="Dot game test", command=self.Dot_game)
 		btn.pack()
+		btn = Button(self, text="IRIS", command=self.IRIS)
+		btn.pack()
+		btn = Button(self, text="IRIS_2", command=self.IRIS_2)
+		btn.pack()
+		btn = Button(self, text="AMBER", command=self.AMBER)
+		btn.pack()
 
 
 	def Easy(self, event=None):
@@ -96,7 +103,7 @@ class Difficulty_selector(Frame):
 	def CAS(self, event=None):
 		global number
 		number = 6
-		self.Init(0)
+		self.Init(100)
 		self.master.change(Game)
 
 	def Ring_Game(self, event=None):
@@ -110,6 +117,32 @@ class Difficulty_selector(Frame):
 		number = 5
 		self.Init(0)
 		self.master.change(Game)
+
+	def CAS(self, event=None):
+		global number
+		number = 6
+		self.Init(0)
+		self.master.change(Game)
+
+	def IRIS(self, event=None):
+		global number
+		number = 7
+		self.Init(0)
+		self.master.change(Game)
+	
+	def IRIS_2(self, event=None):
+		global number
+		number = 9
+		self.Init(0)
+		self.master.change(Game)
+
+	def AMBER(self, event=None):
+		global number
+		number = 8
+		self.Init(100)
+		self.master.change(Game)
+
+
 		
 	def Init(self, proc: int):
 		self.SetTimeToStart()
@@ -181,6 +214,22 @@ class Game(Frame):
 			imageR = current_working_directory + "/Images/Duck_cas_purple.png"
 			imageW = current_working_directory + "/Images/Duck_wrong_hard.png"
 			self.breedte_image = 40
+		elif number == 7:
+			imageB = current_working_directory + "/Images/kikker_1.png"
+			imageR = current_working_directory + "/Images/konijn_1.png"
+			imageW = current_working_directory + "/Images/Duck_wrong_hard.png"
+			self.breedte_image = 40
+		elif number == 8:
+			imageB = current_working_directory + "/Images/amber.png"
+			imageR = current_working_directory + "/Images/hert.png"
+			imageW = current_working_directory + "/Images/Duck_wrong_hard.png"
+			self.breedte_image = 100
+		elif number == 9:
+			imageB = current_working_directory + "/Images/apple_red.png"
+			imageR = current_working_directory + "/Images/apple_green.png"
+			imageW = current_working_directory + "/Images/litte_submarine.png"
+			self.breedte_image = 100
+		
 
 
 		self.img0 = ImageTk.PhotoImage(Image.open(imageB))
