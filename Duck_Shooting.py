@@ -7,7 +7,6 @@ from math import *
 import os
 
 
-
 breedte = 1800
 lengte = 300
 resolutie = "1800x300"
@@ -19,8 +18,11 @@ resolutie = "1800x300"
 # 1. Functionerend maken van Easy Ducks (mogen erg dicht bij elkaar)
 # 2. Eventuele verdere verbeteringen en of opschoning (niet perse noodzakelijk)]
 
+# current_working_directory = os.path.dirname(__file__)
 
-
+# bg = ImageTk.PhotoImage(file = current_working_directory +"/images/TEST4.png")
+# def blup_blup(self, event=None):
+# 				self.Canvas.create_image(0,0, image=bg, anchor="nw")
 # De tkinter mainloop die ervoor zorgt dat er verschillende frames in beeld komen
 # Door de "change" functie aan te roepen verwijdert hij het huidige scherm en geeft het gekozen scherm weer.
 class MainApp(Tk):
@@ -182,52 +184,52 @@ class Game(Frame):
 		master.title("Main application")
 		master.geometry(resolutie)
 		self.canvas = Canvas(master, width=breedte, height=lengte, background="Gray")
-		current_working_directory = os.path.dirname(__file__)
+		self.current_working_directory = os.path.dirname(__file__)
 
 		if number == 1:
-			imageB = current_working_directory + "/Images/Duck_easy_blue.png"
-			imageR = current_working_directory + "/Images/Duck_easy_red.png"
-			imageW = current_working_directory + "/Images/Duck_wrong_hard.png"
+			imageB = self.current_working_directory + "/Images/Duck_easy_blue.png"
+			imageR = self.current_working_directory + "/Images/Duck_easy_red.png"
+			imageW = self.current_working_directory + "/Images/Duck_wrong_hard.png"
 			self.breedte_image = 50
 		elif number == 2:
-			imageB = current_working_directory + "/Images/Duck_medium_blue.png"
-			imageR = current_working_directory + "/Images/Duck_medium_red.png"
-			imageW = current_working_directory + "/Images/Duck_wrong_hard.png"
+			imageB = self.current_working_directory + "/Images/Duck_medium_blue.png"
+			imageR = self.current_working_directory + "/Images/Duck_medium_red.png"
+			imageW = self.current_working_directory + "/Images/Duck_wrong_hard.png"
 			self.breedte_image = 50                                                             # de image breedte hier is de afstand tussen de eenden
 		elif number == 3:
-			imageB = current_working_directory + "/Images/Duck_blue_hard.png"
-			imageR = current_working_directory + "/Images/Duck_red_hard.png"
-			imageW = current_working_directory + "/Images/Duck_wrong_hard.png"
+			imageB = self.current_working_directory + "/Images/Duck_blue_hard.png"
+			imageR = self.current_working_directory + "/Images/Duck_red_hard.png"
+			imageW = self.current_working_directory + "/Images/Duck_wrong_hard.png"
 			self.breedte_image = 40
 		elif number == 4:
-			imageB = current_working_directory + "/Images/Blue_Ring.png"
-			imageR = current_working_directory + "/Images/Red_Ring.png"
-			imageW = current_working_directory + "/Images/Duck_wrong_hard.png"
+			imageB = self.current_working_directory + "/Images/Blue_Ring.png"
+			imageR = self.current_working_directory + "/Images/Red_Ring.png"
+			imageW = self.current_working_directory + "/Images/Duck_wrong_hard.png"
 			self.breedte_image = 40
 		elif number == 5:
-			imageB = current_working_directory + "/Images/Blue_Dot.png"
-			imageR = current_working_directory + "/Images/Red_Dot.png"
-			imageW = current_working_directory + "/Images/Duck_wrong_hard.png"
+			imageB = self.current_working_directory + "/Images/Blue_Dot.png"
+			imageR = self.current_working_directory + "/Images/Red_Dot.png"
+			imageW = self.current_working_directory + "/Images/Duck_wrong_hard.png"
 			self.breedte_image = 40
 		elif number == 6:
-			imageB = current_working_directory + "/Images/Duck_cas.png"
-			imageR = current_working_directory + "/Images/Duck_cas_purple.png"
-			imageW = current_working_directory + "/Images/Duck_wrong_hard.png"
+			imageB = self.current_working_directory + "/Images/Duck_cas.png"
+			imageR = self.current_working_directory + "/Images/Duck_cas_purple.png"
+			imageW = self.current_working_directory + "/Images/Duck_wrong_hard.png"
 			self.breedte_image = 40
 		elif number == 7:
-			imageB = current_working_directory + "/Images/kikker_1.png"
-			imageR = current_working_directory + "/Images/konijn_1.png"
-			imageW = current_working_directory + "/Images/Duck_wrong_hard.png"
+			imageB = self.current_working_directory + "/Images/kikker_1.png"
+			imageR = self.current_working_directory + "/Images/konijn_1.png"
+			imageW = self.current_working_directory + "/Images/Duck_wrong_hard.png"
 			self.breedte_image = 40
 		elif number == 8:
-			imageB = current_working_directory + "/Images/amber.png"
-			imageR = current_working_directory + "/Images/hert.png"
-			imageW = current_working_directory + "/Images/Duck_wrong_hard.png"
+			imageB = self.current_working_directory + "/Images/amber.png"
+			imageR = self.current_working_directory + "/Images/hert.png"
+			imageW = self.current_working_directory + "/Images/Duck_wrong_hard.png"
 			self.breedte_image = 100
 		elif number == 9:
-			imageB = current_working_directory + "/Images/apple_red.png"
-			imageR = current_working_directory + "/Images/apple_green.png"
-			imageW = current_working_directory + "/Images/litte_submarine.png"
+			imageB = self.current_working_directory + "/Images/apple_red.png"
+			imageR = self.current_working_directory + "/Images/apple_green.png"
+			imageW = self.current_working_directory + "/Images/litte_submarine.png"
 			self.breedte_image = 100
 		
 
@@ -252,12 +254,16 @@ class Game(Frame):
 		self.image_coordinates = []
 		self.Wrong_list = []
 
+			
+
+
 		self.canvas.pack()
 		self.master.bind("<Left>", self.Update_image)
 		self.master.bind("<Up>", self.Show_previous_imgages)
 		self.master.bind("<Right>", self.Auto_run)
 		self.master.bind("<Down>", self.Delete_screen)
 		self.master.bind("<9>", self.Create_line)
+		# self.master.bind("<8>", self.bl)
 
 	def Update_color(self, event=None):
 		if self.background == "Gray":
@@ -267,7 +273,7 @@ class Game(Frame):
 			self.canvas.configure(background="Gray")
 			self.background = "Gray"  
 	
-
+	
 	
 	def Create_line(self, event=None):
 		for i in range(self.lanes):
@@ -283,14 +289,13 @@ class Game(Frame):
 	# Het is geprobeerd om dit in de functie zelf toe te passen, alleen verschenen er toen geen eendjes op het scherm;
 	# De coordinaten werden wel gegenereerd maar het canvas liet de plaatjes niet zien.
 	def Auto_run(self, event=None):
-		current_working_directory = os.path.dirname(__file__)
+		self.current_working_directory = os.path.dirname(__file__)
 		for i in range(3):
 			for j in range(2):
 				
-				playsound(current_working_directory + '/Sounds/Ping.mp3')
+				playsound(self.current_working_directory + '/Sounds/Ping.mp3')
 				self.Wait(1)
 			self.Create_line()
-			
 			self.Wait(TimeToStart)
 			self.Update_image()
 			self.Wait(10)
@@ -407,6 +412,14 @@ class Game(Frame):
 	def Delete_screen(self, event=None):
 		self.canvas.delete('all')
 
+	# def blup_blup(self, event=None):
+
+	# 		bg = ImageTk.PhotoImage(file=self.current_working_directory +"/images/TEST4.png")
+			
+	# 		self.canvas.create_image(0,0, image=bg, anchor="nw")
+	
+	# limg= Label(master, i=bg)
+	# limg.pack()
 
 	# Deze functie laat doormiddel van een loop de voorgaande plaatjes zien, momenteel staat de "rounds" op 3 (gezien er 3 pijlen per ronden geschoten worden).
 	# Daarnaast wordt er ook rekening gehouden met de hoeveelheid lanes in de 2de loop.
